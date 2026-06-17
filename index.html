@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Intramural Arena · Tournament Hub & Live Scoreboard</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- Audio Soundscapes -->
+<audio id="bgMusic" loop preload="auto">
+  <source src="background music.mp3" type="audio/mp3">
+</audio>
+<audio id="whistleSound" preload="auto">
+  <source src="whistle.mp3" type="audio/mp3">
+</audio>
+<audio id="crowdSound" preload="auto">
+  <source src="crowd.mp3" type="audio/mp3">
+</audio>
+
+<button id="musicBtn" onclick="toggleMusic()">🔊 Music ON/OFF</button>
+
+<div class="app-overlay">
+  <div class="main-container">
+    
+    <!-- SETUP SCREEN PANEL -->
+    <div class="setup-panel" id="setupPanel">
+      <div class="tourney-header">
+        <div class="glow-title">⚡ INTRAMURAL ARENA</div>
+        <div class="sub">single elimination · dynamic tree diagram · live scoreboard dashboard</div>
+      </div>
+
+      <div class="input-group">
+        <label>🏆 TOURNAMENT NAME</label>
+        <input type="text" id="tourneyNameInput" value="CAMPUS INTRAMURALS 2026">
+      </div>
+
+      <div class="input-group">
+        <label>🏅 SPORT / DIVISION</label>
+        <select id="sportSelect" onchange="changeSportTheme()">
+          <option value="basketball">Basketball 🏀</option>
+          <option value="soccer">Soccer / Football ⚽</option>
+          <option value="volleyball">Volleyball 🏐</option>
+          <option value="badminton">Badminton 🏸</option>
+          <option value="tennis">Tennis 🎾</option>
+          <option value="baseball">Baseball / Softball ⚾</option>
+          <option value="football">American Football 🏈</option>
+          <option value="tabletennis">Table Tennis 🏓</option>
+        </select>
+      </div>
+      
+      <div class="input-group">
+        <label>📋 TEAMS <span id="teamCountSpan">(8)</span></label>
+        <textarea id="teamInput" rows="6" placeholder="Enter one team per line...">Team Alpha 1&#10;Team Alpha 2&#10;Team Alpha 3&#10;Team Alpha 4&#10;Team Alpha 5&#10;Team Alpha 6&#10;Team Alpha 7&#10;Team Alpha 8</textarea>
+      </div>
+
+      <div class="button-group flex-row preset-buttons">
+        <button type="button" class="btn btn-outline" id="preset4Btn">4 TEAMS</button>
+        <button type="button" class="btn btn-outline" id="preset8Btn">8 TEAMS</button>
+        <button type="button" class="btn btn-outline" id="preset16Btn">16 TEAMS</button>
+      </div>
+      
+      <button id="generateBracketBtn" class="btn btn-primary" type="button">🔥 GENERATE BRACKET & ARENA</button>
+      <div id="setupError" class="error-message" style="display: none;"></div>
+    </div>
+
+    <!-- ACTIVE TOURNAMENT DASHBOARD -->
+    <div id="bracketPanel" class="bracket-panel" style="display: none;">
+      <div class="bracket-header">
+        <div>
+          <h2 id="displayTourneyName">Tournament</h2>
+          <span id="displaySport" class="sport-badge">Sport</span>
+          <div class="subtitle">Select any active match below to load it into the Live Scoreboard Controller.</div>
+        </div>
+      </div>
+
+      <!-- SCOREBOARD CONTROLLER CARD -->
+      <div class="scoreboard-card">
+        <div class="scoreboard-header-title">⚡ ACTIVE MATCH ARENA CONTROLLER</div>
+       <div class="teams-score-grid">
+  
+  <div class="score-team-box">
+    <h3 id="team1Name">Select a Match</h3>
+    <h1 id="score1">0</h1>
+    <div id="team1Modifiers" class="point-modifiers"></div>
+  </div>
+
+  <div class="score-timer-box">
+    <div class="timer-title">MATCH TIMER</div>
+    <div id="timer">10:00</div>
+    <div class="timer-controls">
+      <button id="startTimerBtn" onclick="startTimer()">▶ Start</button>
+      <button id="pauseTimerBtn" onclick="pauseTimer()">⏸ Pause</button>
+      <button id="resetTimerBtn" onclick="resetTimer()">🔄 Reset</button>
+    </div>
+    <div id="activeMatchTrackerText">No active match selected</div>
+  </div>
+
+  <div class="score-team-box">
+    <h3 id="team2Name">Select a Match</h3>
+    <h1 id="score2">0</h1>
+    <div id="team2Modifiers" class="point-modifiers"></div>
+  </div>
+
+</div>
+          
+        </div>
+        <div class="scoreboard-footer-actions">
+          <button class="btn btn-primary" id="saveMatchScoreBtn" onclick="lockActiveMatchScore()">💾 LOCK IN SCORE & ADVANCE WINNER</button>
+        </div>
+      </div>
+
+      <!-- Bracket Tree Visualization -->
+      <div class="bracket-scroll">
+        <div id="bracketRoot" class="bracket-tree"></div>
+      </div>
+      
+      <div id="championDisplay" class="champion-zone"></div>
+      
+      <!-- Action Management Row -->
+      <div class="action-buttons">
+        <button type="button" id="resetTourneyBtn" onclick="resetTournament()" class="btn-outline">↺ NEW TOURNAMENT</button>
+        <button type="button" id="reshuffleBtn" onclick="reshuffleTournament()" class="btn-outline">🎲 RESHUFFLE TEAMS</button>
+      </div>
+      
+      <div id="resultsLog" class="results-log">
+        <div class="log-placeholder">✨ Match updates and historical metrics will log here real-time.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
